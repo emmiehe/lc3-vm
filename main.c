@@ -199,6 +199,7 @@ int main(int argc, const char *argv[]) {
   }
 
   signal(SIGINT, handle_interrupt);
+  // signal(SIGABRT, handle_interrupt);
   disable_input_buffering();
 
   /* set the PC to starting position */
@@ -210,6 +211,7 @@ int main(int argc, const char *argv[]) {
   while (running) {
     /* FETCH */
     uint16_t instr = mem_read(reg[R_PC]++);
+    // printf("%d %d \n", instr, reg[R_PC]);
     uint16_t op = instr >> 12;
 
     switch (op) {
@@ -231,8 +233,8 @@ int main(int argc, const char *argv[]) {
     case OP_RES:
     case OP_RTI:
     default:
-      printf("bad opcode\n");
-      // running = 0;
+      printf("unrecognized opcode\n");
+      abort();
       break;
     }
   }
